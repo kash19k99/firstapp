@@ -5,6 +5,7 @@ import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import axios from "axios";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function App() {
 
@@ -121,11 +122,6 @@ const LANGUAGE = 'en-US';
     setSound(_sound);
     setIsRecording(false);
   };
-  
-  const onLogin = () => {
-
-    Alert.alert('Credentials', `email: ${email} and password: ${password}`);
-  }
 
   return (
     <View style={styles.container}>
@@ -154,19 +150,13 @@ const LANGUAGE = 'en-US';
        >
          <Text style={styles.buttonText}> Log in </Text>
        </TouchableOpacity> */}
-
+      
        <TouchableOpacity
-          style={styles.button}
-          onPress={startRecording}
+          onPress={()=> { isRecording ? stopRecording() : startRecording()}}
        >
-         <Text style={styles.buttonText}> Start </Text>
-       </TouchableOpacity>
-
-       <TouchableOpacity
-          style={styles.button}
-          onPress={stopRecording}
-       >
-         <Text style={styles.buttonText}> Stop </Text>
+        {isRecording ? (<Ionicons name="mic" size={32} color="red" />) 
+          : (<Ionicons name="mic-off" size={32} color="red" />)
+        }
        </TouchableOpacity>
         
     </View>
