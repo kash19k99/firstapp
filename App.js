@@ -154,7 +154,7 @@ const LANGUAGE = 'en-US';
        <TouchableOpacity
           onPress={()=> { isRecording ? stopRecording() : startRecording()}}
        >
-        {isRecording ? (<Ionicons name="mic" size={32} color="red" />) 
+        {isRecording ? (<Ionicons name="mic" size={32} color="green" />) 
           : (<Ionicons name="mic-off" size={32} color="red" />)
         }
        </TouchableOpacity>
