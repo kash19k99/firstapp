@@ -15,7 +15,7 @@ export default function App() {
 
   const recordingSettings = {
     android: {
-      extension: ".mp3",
+      extension: ".m4a",
       outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
       audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
       sampleRate: 44100,
@@ -23,7 +23,7 @@ export default function App() {
       bitRate: 128000,
     },
     ios: {
-      extension: ".mp3",
+      extension: ".m4a",
       outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
       audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MIN,
       sampleRate: 44100,
@@ -87,11 +87,21 @@ const LANGUAGE = 'en-US';
     }
     const info = await FileSystem.getInfoAsync(recording.getURI());
     console.log(`FILE INFO: ${JSON.stringify(info)}`);
+    const uri = info.uri;
+    console.log(uri);
+    const fd = new FormData();
+    // const blob = new Blob([JSON.stringify(info)], {type : 'audio/x-wav'});
+    // console.log(blob.blob);
+    
+    fd.append("audio", {uri, type: 'audio/m4a', name: 'speech2text'});
 
-    const blob = new Blob([JSON.stringify(info)], {type : 'audio/json'});
-    console.log(blob.blob);
-    var fd = new FormData();
-    fd.append("audio", blob.blob, "audio.mp3");
+    const response = await fetch('https://gcp-stof-backend-2iy3gnessq-de.a.run.app/audio', {
+      method : 'POST',
+      body : fd
+    });
+
+    const data = await response.json();
+    console.log(data.transcript);
 
     // axios.post(`${baseURLs[env]}/html/audio`, fd).then((resp) => {
     //   console.log(resp);
